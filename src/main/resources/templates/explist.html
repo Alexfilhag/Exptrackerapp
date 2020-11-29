@@ -1,0 +1,69 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Expenses list</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+     <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css"/>
+    
+</head>
+<body>
+<div>
+	<h1>Expenses</h1>
+    <div>
+         Total amount of expenses: [[${totalExpenses}]]   
+       
+    </div>
+    <table class="table table-striped">
+
+		<tr>
+		    <th>Description</th>
+		    <th>Price</th>
+		    <th>Date</th>
+		    <th>Category</th>
+		    <th></th>
+		    <th></th>
+ 
+    	<tr th:each = "expense : ${expenses}">
+    		<td th:text="${expense.description}"></td> &nbsp;
+    		<td th:text="${expense.price}"></td> &nbsp;
+    		<td th:text="${expense.expDate}"></td> &nbsp;	
+    	
+    		<td th:text="${expense.category.name}"></td> 
+    		
+	
+    		<td><a th:href="@{/delete/{id}(id=${expense.id})}"  class="btn btn-danger">Delete</a></td>    		
+    		<td><a th:href="@{/modify/{id}(id=${expense.id})}"  class="btn btn-warning">Modify</a></td>    
+    	</tr>
+     </table> 	
+     <a href="/add" class="btn btn-primary">Add expense</a>
+     </div>
+     
+          <div>
+             &nbsp;
+          </div>
+
+    <div>
+          Page [[${currentPage}]] of [[${totalPages}]] &nbsp;&nbsp;&nbsp;
+          
+          <a th:if="${currentPage >1}" th:href="@{/page/1}">First</a>
+         <span th:unless="${currentPage >1}">First</span>
+         
+         <a th:if="${currentPage >1}" th:href="@{'/page/' + ${currentPage - 1}}">Previous</a>
+         <span th:unless="${currentPage >1}">Previous</span>
+          
+          <span th:each="i: ${#numbers.sequence(1, totalPages)}">&nbsp;
+          <a th:if="${i !=currentPage}" th:href="@{'/page/' + ${i}}">[[${i}]]</a>
+          <span th:unless="${i != currentPage}">[[${i}]]</span>
+          </span>
+          
+         <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${currentPage + 1}}">Next</a>
+         <span th:unless="${currentPage < totalPages}">Next</span>
+         
+         <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${totalPages}}">Last</a>
+         <span th:unless="${currentPage < totalPages}">Last</span>
+          
+    
+         
+    </div>
+</body>
+</html>

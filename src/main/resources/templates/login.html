@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Expenses</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css"/>
+   
+</head>
+<body>
+	<h1>Sign in</h1>
+	<div>
+	  <form th:action="@{/login}" method="post" >
+	  
+	  <fieldset>
+	    <legend>Please Login</legend>
+	    <div th:if="${param.error}" class="alert alert/error">
+	    Invalid username/password.
+	    </div>
+	   
+	    <label for="username">Username</label>
+	    <input type="text" id="username" name="username"/>
+	    <label for="password">Password</label>
+	    <input type="text" id="password" name="password"/>
+	    <div class="form-actions">
+	      <button type="submit" class="btn">Log In</button>
+	    </div>
+	  </fieldset>
+	  </form>
+	
+	</div>
+	<div>
+		<a th:href="@{/register}">Register</a>
+	</div>
+</body>
+</html>
