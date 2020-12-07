@@ -41,6 +41,8 @@ public class ExpenseController {
 	@Autowired
 	UserRepository urepository;
 	
+	
+	
 	@GetMapping(value="/login")
 	public String viewLoginPage() {
 		return "login";
@@ -54,19 +56,19 @@ public class ExpenseController {
 	        return "signup";
 	    }	
 	 
-	 
-	 
+	  
+	 // saving new user
 	    
 	    @RequestMapping(value = "saveuser", method = RequestMethod.POST)
 	    public String save(@Validated @ModelAttribute("signupform") SignUpForm signupForm, BindingResult bindingResult) {
 	    	if (!bindingResult.hasErrors()) { // validation errors
 	    		if (signupForm.getPassword().equals(signupForm.getPasswordCheck())) { // check password match		
-		    		String pwd = signupForm.getPassword();
+		    		String pass = signupForm.getPassword();
 			    	BCryptPasswordEncoder bc = new BCryptPasswordEncoder();
-			    	String hashPwd = bc.encode(pwd);
+			    	String hashPass = bc.encode(pass);
 		
 			    	User newUser = new User();
-			    	newUser.setPasswordHash(hashPwd);
+			    	newUser.setPasswordHash(hashPass);
 			    	newUser.setUsername(signupForm.getUsername());
 			    	newUser.setRole("USER");
 			    	newUser.setEmail(signupForm.getEmail());
@@ -92,7 +94,7 @@ public class ExpenseController {
 	    
 	 
 	
-	
+	// return list starting page 1
 	
 	 @RequestMapping(value="explist")
 	    public String expList(Model model) {
@@ -101,21 +103,21 @@ public class ExpenseController {
 	    }
 	 
 	 
-	 
+	   //Rest
 	  
 	    @RequestMapping(value="/expenses", method = RequestMethod.GET)
 	    public @ResponseBody List<Expense> expListRest() {	
 	        return (List<Expense>) erepository.findAll();
 	    }  
 	 
-	 
+	   //Rest
 	  
 	    @RequestMapping(value="user{id}/expense/{id}", method = RequestMethod.GET)
 	    public @ResponseBody Optional<Expense> findExpRest(@PathVariable("id") Long expenseId) {	
 	    	return erepository.findById(expenseId);
 	    }       
 	    
-	 
+	 // return the list of expenses according to the number of the page
 	 
 	    @GetMapping("/page/{pageNumber}")
 	    public String listByPage(Model model, @PathVariable("pageNumber") int currentPage) {
