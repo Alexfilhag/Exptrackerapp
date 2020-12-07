@@ -4,6 +4,13 @@
     <title>Expenses</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
      <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css"/>
+       <style type="text/css">
+            label {
+              width:100px;
+            }
+            
+          
+        </style>
 </head>
 <body>
 	<h1>Add</h1>
@@ -18,7 +25,7 @@
 			<input type="text" id="price" th:field="*{price}" />
 			<div style="clear: both; display: block; height: 10px;"></div>
 		  	<label for="date">Date</label>
-			<input type="text" id = "date" th:field="*{expDate}" /><br>
+			<input placeholder="mm-dd-yyyy" type="text"  id = "date" th:field="*{expDate}" /><br>
 			
 		
 			
