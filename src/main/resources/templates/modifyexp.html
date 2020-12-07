@@ -13,7 +13,7 @@
         </style>
 </head>
 <body>
-	<h1>Add</h1>
+	<h1>Modify</h1>
 	<div>
 		<form th:object="${expense}" th:action="@{/process}" action="#" method="get">
 			
@@ -29,6 +29,7 @@
 									
 		  	
 			<select id="category" th:field="*{category}" class="form-control">
+			    
        			<option th:each="category: ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
     		</select>
 			
