@@ -20,8 +20,8 @@ public class Category {
 	private Long id;
 	private String name;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
 	@JsonBackReference
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
 	private List<Expense> expenses;
 
 	

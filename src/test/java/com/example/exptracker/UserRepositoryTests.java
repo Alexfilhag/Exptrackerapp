@@ -28,7 +28,7 @@ public class UserRepositoryTests {
 		User user = new User();
 		user.setUsername("Alex");
 		user.setEmail("alex@gmai.com");
-		user.setPassword("alexalex");
+		user.setPasswordHash("alexalex");
 		
 		urepository.save(user);
 		User savedUser = urepository.save(user);

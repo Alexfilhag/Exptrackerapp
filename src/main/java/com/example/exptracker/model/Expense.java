@@ -26,12 +26,16 @@ public class Expense {
 	private String expDate;
 	
 	@ManyToOne
-	@JoinColumn(name = "categoryid")
 	@JsonManagedReference
+	@JoinColumn(name = "categoryid")
 	private Category category;
 	
+	@ManyToOne
+	@JsonManagedReference
+	@JoinColumn(name = "userid")
+	private User user;
 	
-	 
+
 	
 	public Expense() {
 		super();
@@ -117,6 +121,20 @@ public class Expense {
 
 	public void setCategory(Category category) {
 		this.category = category;
+	}
+
+
+    
+
+	public User getUser() {
+		return user;
+	}
+
+
+
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 

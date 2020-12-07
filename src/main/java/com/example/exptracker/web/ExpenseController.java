@@ -1,21 +1,28 @@
 package com.example.exptracker.web;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 
 import com.example.exptracker.model.CategoryRepository;
 import com.example.exptracker.model.Expense;
 import com.example.exptracker.model.ExpenseRepository;
+import com.example.exptracker.model.SignUpForm;
 import com.example.exptracker.model.User;
 import com.example.exptracker.model.UserRepository;
 import com.example.exptracker.service.ExpenseService;
@@ -39,24 +46,75 @@ public class ExpenseController {
 		return "login";
 	}
 	
-	@GetMapping("/register")
-	public String showRegisterFrom(Model model) {
-		model.addAttribute("user", new User());
-		return "registrationForm";
-	}
 	
-	@PostMapping("/process_registration")
-	public String processReg(User user) {
-		urepository.save(user);
+	
+	 @RequestMapping(value = "signup")
+	    public String addStudent(Model model){
+	    	model.addAttribute("signupform", new SignUpForm());
+	        return "signup";
+	    }	
+	 
+	 
+	 
+	    
+	    @RequestMapping(value = "saveuser", method = RequestMethod.POST)
+	    public String save(@Validated @ModelAttribute("signupform") SignUpForm signupForm, BindingResult bindingResult) {
+	    	if (!bindingResult.hasErrors()) { // validation errors
+	    		if (signupForm.getPassword().equals(signupForm.getPasswordCheck())) { // check password match		
+		    		String pwd = signupForm.getPassword();
+			    	BCryptPasswordEncoder bc = new BCryptPasswordEncoder();
+			    	String hashPwd = bc.encode(pwd);
 		
-		return "registration_success";
-	}
+			    	User newUser = new User();
+			    	newUser.setPasswordHash(hashPwd);
+			    	newUser.setUsername(signupForm.getUsername());
+			    	newUser.setRole("USER");
+			    	newUser.setEmail(signupForm.getEmail());
+			    	if (urepository.findByUsername(signupForm.getUsername()) == null) { // Check if user exists
+			    		urepository.save(newUser);
+			    	}
+			    	else {
+		    			bindingResult.rejectValue("username", "err.username", "Username already exists");    	
+		    			return "signup";		    		
+			    	}
+	    		}
+	    		else {
+	    			bindingResult.rejectValue("passwordCheck", "err.passCheck", "Passwords does not match");    	
+	    			return "signup";
+	    		}
+	    	}
+	    	else {
+	    		return "signup";
+	    	}
+	    	return "registration_success";    	
+	    }    
+	    
+	    
+	 
+	
+	
 	
 	 @RequestMapping(value="explist")
 	    public String expList(Model model) {
 		 
 		return listByPage(model, 1);
 	    }
+	 
+	 
+	 
+	  
+	    @RequestMapping(value="/expenses", method = RequestMethod.GET)
+	    public @ResponseBody List<Expense> expListRest() {	
+	        return (List<Expense>) erepository.findAll();
+	    }  
+	 
+	 
+	  
+	    @RequestMapping(value="user{id}/expense/{id}", method = RequestMethod.GET)
+	    public @ResponseBody Optional<Expense> findExpRest(@PathVariable("id") Long expenseId) {	
+	    	return erepository.findById(expenseId);
+	    }       
+	    
 	 
 	 
 	    @GetMapping("/page/{pageNumber}")

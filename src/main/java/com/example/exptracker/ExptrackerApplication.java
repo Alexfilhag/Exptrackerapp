@@ -38,6 +38,11 @@ public class ExptrackerApplication {
 			crepository.save(new Category("Taxes"));
 			crepository.save(new Category("Health"));
 			crepository.save(new Category("Bills"));
+			crepository.save(new Category("Clothing")); 
+			crepository.save(new Category("Household Items")); 
+			crepository.save(new Category("Savings"));
+			crepository.save(new Category("Personal"));
+			
 			
 		    erepository.save(new Expense("Bus",20,"10-20-2020", crepository.findByName("Transport").get(0)));
 		    erepository.save(new Expense("Bread, milk",5,"11-11-2020", crepository.findByName("Food").get(0)));
@@ -57,6 +62,7 @@ public class ExptrackerApplication {
 		    erepository.save(new Expense("VideoGame",20,"10-20-2020", crepository.findByName("Entertainment").get(0)));
 		    
 		    
+		 
 			User user1 = new User("admin", "$2a$10$0MMwY.IQqpsVc1jC8u7IJ.2rT8b0Cd3b3sfIBGV2zfgnPGtT4r0.C", "admin@gmail.com", "ADMIN");
 			urepository.save(user1);
 			
