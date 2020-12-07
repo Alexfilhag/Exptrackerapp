@@ -20,8 +20,8 @@ public class Category {
 	private Long id;
 	private String name;
 	
-	@JsonBackReference
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
+	@JsonIgnore
 	private List<Expense> expenses;
 
 	

@@ -26,12 +26,12 @@ public class Expense {
 	private String expDate;
 	
 	@ManyToOne
-	@JsonManagedReference
+	@JsonIgnore
 	@JoinColumn(name = "categoryid")
 	private Category category;
 	
 	@ManyToOne
-	@JsonManagedReference
+	@JsonIgnore
 	@JoinColumn(name = "userid")
 	private User user;
 	

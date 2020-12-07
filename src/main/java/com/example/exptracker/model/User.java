@@ -15,6 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 
@@ -39,8 +40,9 @@ public class User {
 	@Column(name = "email", nullable = false)
 	private String email;
 	
-	@JsonBackReference
+	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+	@JsonIgnore
 	private List<Expense> expenses;
 
 	
